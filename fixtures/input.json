@@ -1,0 +1,32 @@
+{
+  "currency": "TEST",
+  "fixed_charge": 50,
+  "tiers": [
+    {
+      "up_to": 100,
+      "rate": 2
+    },
+    {
+      "up_to": 200,
+      "rate": 3
+    },
+    {
+      "up_to": null,
+      "rate": 5
+    }
+  ],
+  "accounts": [
+    {
+      "id": "A",
+      "quantity": 250
+    },
+    {
+      "id": "B",
+      "quantity": 0
+    },
+    {
+      "id": "C",
+      "quantity": 100
+    }
+  ]
+}
