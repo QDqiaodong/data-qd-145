@@ -8,4 +8,6 @@ tiers为1..100个up_to/rate；累计上界严格递增、有限上界1..10^12，
 > 子命令提供，契约见 [ledger.md](ledger.md)；v1 的 `--source/--output` 保持兼容。
 > 公共用量援助计划以 `aid-plan --source/--output` 子命令提供，契约见
 > [aid.md](aid.md)，与电表账簿互不影响。
+> 稳健储能充放电计划以 `storage-plan --source/--output` 子命令提供，契约见
+> [storage.md](storage.md)，使用独立快照，不操作既有账簿或援助数据。
 

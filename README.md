@@ -56,6 +56,20 @@ tariff-rating aid-plan --source fixtures/aid.json --output run/aid-report.json
 ```
 
 
+## 稳健储能充放电计划 (storage-plan)
+
+新增 `storage-plan --source INPUT --output REPORT`：从独立 JSON 快照（价目表、
+时段负荷、单电池、电网上限、费率与缺测遥测前缀）生成一条对所有合法前缀历史都安全
+的开环充放电计划。它不读写电表账簿或援助数据。`storage.py` 以可达边界三元组重建
+前缀历史（保留跨边界 SOC、最后购电、需量峰值与前缀费用之间的真实关联及见证），
+再以 `(首段购电, SOC 偏移, 末段购电, 后缀峰值)` 为状态精确优化最坏账单、后缀
+磨损与动作字典序三级目标；跨边界两段需量在规划边界处接合。契约与资源代价见
+[储能计划契约](docs/storage.md)。
+
+```sh
+tariff-rating storage-plan --source fixtures/storage.json --output run/storage-report.json
+```
+
 ## 当前业务与样例
 # Progressive usage rating v1
 

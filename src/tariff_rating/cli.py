@@ -3,7 +3,7 @@ import argparse, json, sys
 from pathlib import Path
 from .common import read, save, sha256_hex
 from .model import analyze
-from . import aid, ledger as ledger_mod
+from . import aid, storage, ledger as ledger_mod
 
 def run(source):
     data,digest=read(source)
@@ -13,6 +13,11 @@ def run_aid(source):
     data,_=read(source)
     return {'schema_version':3,'source_sha256':sha256_hex(aid.normalized(data)),
             'result':aid.analyze(data)}
+
+def run_storage(source):
+    data,_=read(source)
+    return {'schema_version':4,'source_sha256':sha256_hex(storage.normalized(data)),
+            'result':storage.analyze(data)}
 
 def _print(obj):
     print(json.dumps(obj,sort_keys=True,ensure_ascii=False,allow_nan=False,indent=2))
@@ -38,6 +43,10 @@ def main():
     p_aid.add_argument('--source',type=Path,required=True,help='aid snapshot JSON file')
     p_aid.add_argument('--output',type=Path,required=True,help='report JSON file')
 
+    p_storage=sub.add_parser('storage-plan',help='build one robust charge/discharge plan')
+    p_storage.add_argument('--source',type=Path,required=True,help='storage snapshot JSON file')
+    p_storage.add_argument('--output',type=Path,required=True,help='report JSON file')
+
     # Legacy v1 single-period invocation (no subcommand): --source/--output.
     parser.add_argument('--source',type=Path)
     parser.add_argument('--output',type=Path)
@@ -55,9 +64,10 @@ def main():
             state=ledger_mod.load(args.ledger) if args.ledger.exists() else ledger_mod.new_state()
             result=ledger_mod.ingest(state,args.ledger,data);_print(result);return 0
 
-        if args.command=='aid-plan':
+        if args.command in ('aid-plan','storage-plan'):
             if args.source.resolve()==args.output.resolve():raise ValueError('input and output must differ')
-            report=run_aid(args.source);save(args.output,report)
+            report=run_aid(args.source) if args.command=='aid-plan' else run_storage(args.source)
+            save(args.output,report)
             print(json.dumps(report,sort_keys=True,ensure_ascii=False,allow_nan=False));return 0
 
         state=ledger_mod.load(args.ledger)

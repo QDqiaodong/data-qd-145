@@ -1,0 +1,22 @@
+{
+  "currency": "TEST",
+  "fixed_charge": 10,
+  "tariffs": [
+    {"id": "PEAK", "tiers": [{"up_to": 8, "rate": 9}, {"up_to": 16, "rate": 4}, {"up_to": null, "rate": 2}]},
+    {"id": "CHEAP", "tiers": [{"up_to": 4, "rate": 4}, {"up_to": null, "rate": 1}]}
+  ],
+  "slots": [
+    {"id": "S01", "load": 2, "tariff_id": "CHEAP"},
+    {"id": "S02", "load": 2, "tariff_id": "CHEAP"},
+    {"id": "S03", "load": 6, "tariff_id": "PEAK"},
+    {"id": "S04", "load": 6, "tariff_id": "PEAK"}
+  ],
+  "battery": {"capacity": 6, "initial_soc": 2, "reserve": 1, "charge_limit": 2, "discharge_limit": 2},
+  "grid_limit": 10,
+  "wear_rate": 1,
+  "demand_rate": 1,
+  "prefix": [
+    {"slot_id": "S01", "import_lo": 2, "import_hi": 6, "soc_after": null},
+    {"slot_id": "S02", "import_lo": 2, "import_hi": 6, "soc_after": null}
+  ]
+}
