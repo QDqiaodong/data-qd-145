@@ -1,0 +1,29 @@
+{
+  "batch_id": "demo-batch-0001",
+  "seq": 1,
+  "config": {
+    "currency": "TEST",
+    "fixed_charge": 50,
+    "tiers": [
+      {"up_to": 100, "rate": 2},
+      {"up_to": 200, "rate": 3},
+      {"up_to": null, "rate": 5}
+    ],
+    "accounts": [{"id": "A"}],
+    "meters": [{"id": "M1", "account": "A"}],
+    "period_start": "2025-01-01T00:00:00Z",
+    "period_end": "2025-04-01T00:00:00Z",
+    "max_interval_seconds": 2419200,
+    "max_rate_kwh_per_hour": "10",
+    "exchanges": []
+  },
+  "readings": [
+    {"reading_id": "r0", "meter": "M1", "timestamp": "2025-01-01T00:00:00Z", "value": 0, "revision": 1},
+    {"reading_id": "m0", "meter": "M1", "timestamp": "2025-01-16T00:00:00Z", "value": 100, "revision": 1},
+    {"reading_id": "r1", "meter": "M1", "timestamp": "2025-02-01T00:00:00Z", "value": 200, "revision": 1},
+    {"reading_id": "m1", "meter": "M1", "timestamp": "2025-02-16T00:00:00Z", "value": 300, "revision": 1},
+    {"reading_id": "r2", "meter": "M1", "timestamp": "2025-03-01T00:00:00Z", "value": 400, "revision": 1},
+    {"reading_id": "m2", "meter": "M1", "timestamp": "2025-03-16T00:00:00Z", "value": 500, "revision": 1},
+    {"reading_id": "r3", "meter": "M1", "timestamp": "2025-04-01T00:00:00Z", "value": 600, "revision": 1}
+  ]
+}

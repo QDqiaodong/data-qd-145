@@ -27,6 +27,23 @@ python3 -m venv .venv
 src/tariff_rating/model.py 为业务模型，相关算法模块独立组织；common.py 提供受限JSON及报告发布，
 cli.py 衔接数据链路。fixtures 为明确自制样例，代码与样例采用MIT许可。
 
+## 电表读数核验与月度发票账簿 (v2)
+
+v1 单期 `--source/--output` 调用完全保留；新增基于显式 `--ledger` 文件的三个子命令：
+
+```sh
+tariff-rating ingest --batch fixtures/batch.json --ledger run/ledger.json
+tariff-rating status --ledger run/ledger.json [--account A]
+tariff-rating close  --ledger run/ledger.json --account A --period 2025-01
+```
+
+读数链模块 `readings.py` 负责修订链、区间核验与更正影响闭包（相邻区间与异常状态传播到
+边界或恢复为止），不触碰发票；账期账簿 `periods.py` 消费该闭包重算开放期、冻结已关账
+发票、核算差额分配并更新 held 状态；`ledger.py` 负责批次身份、提交代与原子持久化。
+业务规则（锚点、半开区间 `(left,right]`、换表配对、超速严格不等式、stale/冲突修订、
+迟到更正净额、暂配替换、pending 阻断、失败重放）详见 [账期账簿契约](docs/ledger.md)。
+
+
 ## 当前业务与样例
 # Progressive usage rating v1
 
