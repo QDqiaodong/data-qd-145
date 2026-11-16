@@ -43,6 +43,18 @@ tariff-rating close  --ledger run/ledger.json --account A --period 2025-01
 业务规则（锚点、半开区间 `(left,right]`、换表配对、超速严格不等式、stale/冲突修订、
 迟到更正净额、暂配替换、pending 阻断、失败重放）详见 [账期账簿契约](docs/ledger.md)。
 
+## 公共用量援助计划 (aid-plan)
+
+新增 `aid-plan --source INPUT --output REPORT`：从独立 JSON 快照（每户已确认总用量、
+地区保障与全局券预算）制定一轮用量券分配方案，不读写电表账簿。`aid.py` 负责每户
+分段仿射救助曲线（固定费不减免、跨档真实增量价、O(档数) 而非逐单位）与地区保障
+精确分配（券不可拆分、全局预算与地区最低保障、四级字典序目标精确最优）。
+契约与资源代价说明见 [援助计划契约](docs/aid.md)。
+
+```sh
+tariff-rating aid-plan --source fixtures/aid.json --output run/aid-report.json
+```
+
 
 ## 当前业务与样例
 # Progressive usage rating v1

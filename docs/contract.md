@@ -6,4 +6,6 @@ tiers为1..100个up_to/rate；累计上界严格递增、有限上界1..10^12，
 
 > v2 电表读数核验与月度发票账簿在同一 CLI 上以 `ingest` / `status` / `close`
 > 子命令提供，契约见 [ledger.md](ledger.md)；v1 的 `--source/--output` 保持兼容。
+> 公共用量援助计划以 `aid-plan --source/--output` 子命令提供，契约见
+> [aid.md](aid.md)，与电表账簿互不影响。
 
