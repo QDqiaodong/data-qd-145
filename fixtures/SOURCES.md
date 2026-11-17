@@ -6,3 +6,8 @@
   需求费与磨损费），用于独立读取报告与联动验收。
 - `aid.json`：aid-plan 联动验收样例（两地区、含零价平台与固定费的价目表，
   一户 target_relief 可在平台前/平台后/不可达之间调整）。
+- `cash_ledger.json`：cash-reconcile 样例账簿（由本仓 ledger 接口实际 ingest
+  三批并 close 三期产生；二月发票含 +250 正调整、三月发票同时含 -310 与 +250
+  调整，用于核对冻结应收即 invoice.total）。
+- `cash.json`：cash-reconcile 样例输入（三份冻结发票、两笔来款、两次 settle、
+  一笔部分退票，覆盖撤销后重开欠款再核销的联动）。

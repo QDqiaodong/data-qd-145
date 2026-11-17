@@ -10,7 +10,7 @@ from pathlib import Path
 from .common import canonical, sha256_hex, read, save, ident, number
 from .config import validate_config, BatchRejected, MAX_READINGS_PER_METER
 from .readings import validate_reading, impact_closure
-from .periods import recompute, close_period, status_view, parse_period_id
+from .periods import recompute, close_period, status_view, parse_period_id, period_id
 
 LEDGER_VERSION=2
 FAULT_ENV='TARIFF_LEDGER_FAULT'
@@ -34,6 +34,54 @@ def load(path):
     if state.get('version')!=LEDGER_VERSION:raise ValueError('unsupported ledger version')
     recompute(state)
     return state
+
+def load_snapshot(path,max_bytes=64_000_000):
+    """Read-only v2 ledger snapshot for reporting chains (cash-reconcile).
+
+    Parses the persistent facts only: the reading chain is never recomputed,
+    no derived view is built and nothing is ever written back.  Returns
+    ``(state, ledger_raw_sha256)`` where the digest covers the raw file bytes.
+    """
+    p=Path(path)
+    if p.is_symlink():raise ValueError('ledger path cannot be a symlink')
+    data,digest=read(p,max_bytes=max_bytes)
+    if not isinstance(data,dict) or data.get('version')!=LEDGER_VERSION:
+        raise ValueError('unsupported ledger version')
+    return data,digest
+
+def frozen_invoice(state,account,period,invoice_sha256,currency):
+    """Extract one frozen invoice credential from a read-only ledger snapshot.
+
+    The only credential is the frozen invoice text stored in ``closed``; the
+    current derived reading state (held / pending) is never consulted and no
+    recomputation is triggered, so a closed source period stays payable even
+    when later readings would hold it.  The invoice body (without its
+    ``invoice_sha256`` field) is re-hashed under the repository canonical/SHA
+    rules and must equal both the stored field and the requested SHA -- this
+    detects tampering of the selected frozen invoice.  Account, period and
+    currency must match the request as well.
+
+    The receivable is the frozen ``invoice.total`` (already net of received
+    adjustments): ``own_total`` is never used as the receivable and
+    ``received_adjustments`` are never added or subtracted again.
+    """
+    cfg=state.get('config')
+    if cfg is None:raise ValueError('ledger has no configuration yet')
+    pid=period_id(cfg['boundaries'][parse_period_id(period,cfg)])
+    key='%s#%s'%(account,pid)
+    entry=state.get('closed',{}).get(key)
+    if entry is None:raise ValueError('no closed invoice for '+key)
+    invoice=entry['invoice']
+    if invoice.get('account')!=account:raise ValueError('frozen invoice account mismatch for '+key)
+    if invoice.get('period')!=pid:raise ValueError('frozen invoice period mismatch for '+key)
+    if invoice.get('currency')!=currency:raise ValueError('frozen invoice currency mismatch for '+key)
+    body={k:v for k,v in invoice.items() if k!='invoice_sha256'}
+    digest=sha256_hex(body)
+    if invoice.get('invoice_sha256')!=digest:
+        raise ValueError('frozen invoice tampered: stored sha256 does not match its body for '+key)
+    if invoice_sha256!=digest:
+        raise ValueError('requested invoice_sha256 does not match the frozen invoice for '+key)
+    return {'account':account,'period':pid,'invoice_sha256':digest,'receivable':invoice['total']}
 
 def _commit(state,path):
     if os.environ.get(FAULT_ENV):  # simulated crash before publication

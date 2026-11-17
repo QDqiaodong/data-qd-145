@@ -1,0 +1,414 @@
+{
+  "batches": [
+    {
+      "batch_id": "cash-demo-1",
+      "generation": 1,
+      "result": {
+        "accepted": 7,
+        "batch_id": "cash-demo-1",
+        "generation": 1,
+        "held_periods": [],
+        "impact": {
+          "accounts": [
+            "A"
+          ],
+          "meters": [
+            "M1"
+          ]
+        },
+        "seq": 1,
+        "sha256": "f4ee864cf59184b842baf285a96d671195229de990125a1e486b6ac8eb75f271",
+        "stale": [],
+        "stale_count": 0
+      },
+      "seq": 1,
+      "sha256": "f4ee864cf59184b842baf285a96d671195229de990125a1e486b6ac8eb75f271"
+    },
+    {
+      "batch_id": "cash-demo-2",
+      "generation": 3,
+      "result": {
+        "accepted": 1,
+        "batch_id": "cash-demo-2",
+        "generation": 3,
+        "held_periods": [],
+        "impact": {
+          "accounts": [
+            "A"
+          ],
+          "meters": [
+            "M1"
+          ]
+        },
+        "seq": 2,
+        "sha256": "31a214224c3ee0c7dcdab7fd18a3d0a2b1f8a15371e68987984eb3e76568582e",
+        "stale": [],
+        "stale_count": 0
+      },
+      "seq": 2,
+      "sha256": "31a214224c3ee0c7dcdab7fd18a3d0a2b1f8a15371e68987984eb3e76568582e"
+    },
+    {
+      "batch_id": "cash-demo-3",
+      "generation": 5,
+      "result": {
+        "accepted": 1,
+        "batch_id": "cash-demo-3",
+        "generation": 5,
+        "held_periods": [],
+        "impact": {
+          "accounts": [
+            "A"
+          ],
+          "meters": [
+            "M1"
+          ]
+        },
+        "seq": 3,
+        "sha256": "0fa604f38a2bf566ce7365a2d591a5e0036605e0f0c4a661b61c2ece331865e3",
+        "stale": [],
+        "stale_count": 0
+      },
+      "seq": 3,
+      "sha256": "0fa604f38a2bf566ce7365a2d591a5e0036605e0f0c4a661b61c2ece331865e3"
+    }
+  ],
+  "closed": {
+    "A#2025-01": {
+      "frozen_total": 550,
+      "invoice": {
+        "account": "A",
+        "closed_generation": 1,
+        "currency": "TEST",
+        "fixed_charge": 50,
+        "index": 0,
+        "invoice_sha256": "34d1e8be2a08b614254a5caa046ad2531167f31ec37b5f1a00cb865effb05616",
+        "lines": [
+          {
+            "charge": 200,
+            "from": 0,
+            "quantity": 100,
+            "rate": 2,
+            "up_to": 100
+          },
+          {
+            "charge": 300,
+            "from": 100,
+            "quantity": 100,
+            "rate": 3,
+            "up_to": 200
+          }
+        ],
+        "period": "2025-01",
+        "quantity": 200,
+        "received_adjustments": [],
+        "tariff": {
+          "currency": "TEST",
+          "fixed_charge": 50,
+          "tiers": [
+            {
+              "rate": 2,
+              "up_to": 100
+            },
+            {
+              "rate": 3,
+              "up_to": 200
+            },
+            {
+              "rate": 5,
+              "up_to": null
+            }
+          ]
+        },
+        "total": 550,
+        "variable_charge": 500
+      },
+      "own_total": 550,
+      "tariff": {
+        "currency": "TEST",
+        "fixed_charge": 50,
+        "tiers": [
+          {
+            "rate": 2,
+            "up_to": 100
+          },
+          {
+            "rate": 3,
+            "up_to": 200
+          },
+          {
+            "rate": 5,
+            "up_to": null
+          }
+        ]
+      }
+    },
+    "A#2025-02": {
+      "frozen_total": 650,
+      "invoice": {
+        "account": "A",
+        "closed_generation": 3,
+        "currency": "TEST",
+        "fixed_charge": 50,
+        "index": 1,
+        "invoice_sha256": "5f43c0ccb779048de3d1270900c0555345b2333280732cf2fff03c5a96159172",
+        "lines": [
+          {
+            "charge": 200,
+            "from": 0,
+            "quantity": 100,
+            "rate": 2,
+            "up_to": 100
+          },
+          {
+            "charge": 150,
+            "from": 100,
+            "quantity": 50,
+            "rate": 3,
+            "up_to": 200
+          }
+        ],
+        "period": "2025-02",
+        "quantity": 150,
+        "received_adjustments": [
+          {
+            "amount": 250,
+            "source": "A#2025-01"
+          }
+        ],
+        "tariff": {
+          "currency": "TEST",
+          "fixed_charge": 50,
+          "tiers": [
+            {
+              "rate": 2,
+              "up_to": 100
+            },
+            {
+              "rate": 3,
+              "up_to": 200
+            },
+            {
+              "rate": 5,
+              "up_to": null
+            }
+          ]
+        },
+        "total": 650,
+        "variable_charge": 350
+      },
+      "own_total": 400,
+      "tariff": {
+        "currency": "TEST",
+        "fixed_charge": 50,
+        "tiers": [
+          {
+            "rate": 2,
+            "up_to": 100
+          },
+          {
+            "rate": 3,
+            "up_to": 200
+          },
+          {
+            "rate": 5,
+            "up_to": null
+          }
+        ]
+      }
+    },
+    "A#2025-03": {
+      "frozen_total": 490,
+      "invoice": {
+        "account": "A",
+        "closed_generation": 5,
+        "currency": "TEST",
+        "fixed_charge": 50,
+        "index": 2,
+        "invoice_sha256": "5b6c9fbebf79e46fb2a5aa7e54f41e80a5a9df90d3a3defd83552abe5ffbd588",
+        "lines": [
+          {
+            "charge": 200,
+            "from": 0,
+            "quantity": 100,
+            "rate": 2,
+            "up_to": 100
+          },
+          {
+            "charge": 300,
+            "from": 100,
+            "quantity": 100,
+            "rate": 3,
+            "up_to": 200
+          }
+        ],
+        "period": "2025-03",
+        "quantity": 200,
+        "received_adjustments": [
+          {
+            "amount": -310,
+            "source": "A#2025-01"
+          },
+          {
+            "amount": 250,
+            "source": "A#2025-02"
+          }
+        ],
+        "tariff": {
+          "currency": "TEST",
+          "fixed_charge": 50,
+          "tiers": [
+            {
+              "rate": 2,
+              "up_to": 100
+            },
+            {
+              "rate": 3,
+              "up_to": 200
+            },
+            {
+              "rate": 5,
+              "up_to": null
+            }
+          ]
+        },
+        "total": 490,
+        "variable_charge": 500
+      },
+      "own_total": 550,
+      "tariff": {
+        "currency": "TEST",
+        "fixed_charge": 50,
+        "tiers": [
+          {
+            "rate": 2,
+            "up_to": 100
+          },
+          {
+            "rate": 3,
+            "up_to": 200
+          },
+          {
+            "rate": 5,
+            "up_to": null
+          }
+        ]
+      }
+    }
+  },
+  "config": {
+    "accounts": [
+      "A"
+    ],
+    "boundaries": [
+      1735689600,
+      1738368000,
+      1740787200,
+      1743465600
+    ],
+    "currency": "TEST",
+    "exchanges": [],
+    "fixed_charge": 50,
+    "max_interval_seconds": 2419200,
+    "max_rate_kwh_per_hour": "10",
+    "meter_owner": {
+      "M1": "A"
+    },
+    "meters": [
+      "M1"
+    ],
+    "period_end": 1743465600,
+    "period_start": 1735689600,
+    "tiers": [
+      {
+        "rate": 2,
+        "up_to": 100
+      },
+      {
+        "rate": 3,
+        "up_to": 200
+      },
+      {
+        "rate": 5,
+        "up_to": null
+      }
+    ]
+  },
+  "events": {
+    "M1": [
+      {
+        "meter": "M1",
+        "reading_id": "r0",
+        "revision": 1,
+        "timestamp": 1735689600,
+        "value": "0"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "r1",
+        "revision": 1,
+        "timestamp": 1738368000,
+        "value": "200"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "r2",
+        "revision": 1,
+        "timestamp": 1740787200,
+        "value": "400"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "r3",
+        "revision": 1,
+        "timestamp": 1743465600,
+        "value": "600"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "m0",
+        "revision": 1,
+        "timestamp": 1736985600,
+        "value": "100"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "m1",
+        "revision": 1,
+        "timestamp": 1739664000,
+        "value": "300"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "m2",
+        "revision": 1,
+        "timestamp": 1742083200,
+        "value": "500"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "r1",
+        "revision": 2,
+        "timestamp": 1738368000,
+        "value": "250"
+      },
+      {
+        "meter": "M1",
+        "reading_id": "r1",
+        "revision": 3,
+        "timestamp": 1738368000,
+        "value": "180"
+      }
+    ]
+  },
+  "generation": 6,
+  "sources": {
+    "A#2025-01": {
+      "closed_net": -60
+    },
+    "A#2025-02": {
+      "closed_net": 250
+    }
+  },
+  "version": 2
+}

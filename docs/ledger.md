@@ -66,3 +66,13 @@ tariff-rating close  --ledger run/ledger.json --account A --period 2025-01
 - `status` 返回最新代、批次水位、各账期状态、冻结发票金额与未分配调整。
 - 全量重算成本为 O(有效读数 + 账户数×账期数)，在 20 万读数/表、120 期/账户上限内可评估；
   不以放宽发票不变性或延迟账期状态更新换取性能。
+
+## 只读冻结发票取数（供 cash-reconcile）
+
+- `ledger.load_snapshot(path)` 只读解析账簿（≤64MB、拒绝符号链接），不触发读数链
+  重算、不写回；返回状态与账簿原始字节 SHA256。
+- `ledger.frozen_invoice(state, account, period, invoice_sha256, currency)` 仅从
+  `closed` 的 invoice 原文取数：移去 `invoice_sha256` 字段后按 canonical/SHA 规则
+  重算并与存储值及请求值双重核对（可检测所选冻结发票被篡改），再核对请求的
+  account/period/currency。真实应收为已含调整的 `invoice.total`；即使当前读数令
+  该源期 held 或 pending，冻结发票仍可收款。详见 [cash.md](cash.md)。

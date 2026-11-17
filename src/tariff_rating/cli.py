@@ -3,7 +3,7 @@ import argparse, json, sys
 from pathlib import Path
 from .common import read, save, sha256_hex
 from .model import analyze
-from . import aid, storage, ledger as ledger_mod
+from . import aid, storage, ledger as ledger_mod, cash
 
 def run(source):
     data,digest=read(source)
@@ -47,6 +47,11 @@ def main():
     p_storage.add_argument('--source',type=Path,required=True,help='storage snapshot JSON file')
     p_storage.add_argument('--output',type=Path,required=True,help='report JSON file')
 
+    p_cash=sub.add_parser('cash-reconcile',help='reconcile bank cash events against frozen invoices')
+    p_cash.add_argument('--ledger',type=Path,required=True,help='existing v2 ledger file (read-only)')
+    p_cash.add_argument('--source',type=Path,required=True,help='cash event snapshot JSON file')
+    p_cash.add_argument('--output',type=Path,required=True,help='report JSON file')
+
     # Legacy v1 single-period invocation (no subcommand): --source/--output.
     parser.add_argument('--source',type=Path)
     parser.add_argument('--output',type=Path)
@@ -67,6 +72,14 @@ def main():
         if args.command in ('aid-plan','storage-plan'):
             if args.source.resolve()==args.output.resolve():raise ValueError('input and output must differ')
             report=run_aid(args.source) if args.command=='aid-plan' else run_storage(args.source)
+            save(args.output,report)
+            print(json.dumps(report,sort_keys=True,ensure_ascii=False,allow_nan=False));return 0
+
+        if args.command=='cash-reconcile':
+            out=args.output.resolve()
+            if out==args.source.resolve() or out==args.ledger.resolve():
+                raise ValueError('output must not overwrite source or ledger')
+            report=cash.run(args.ledger,args.source)
             save(args.output,report)
             print(json.dumps(report,sort_keys=True,ensure_ascii=False,allow_nan=False));return 0
 

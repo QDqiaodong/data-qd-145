@@ -10,4 +10,6 @@ tiers为1..100个up_to/rate；累计上界严格递增、有限上界1..10^12，
 > [aid.md](aid.md)，与电表账簿互不影响。
 > 稳健储能充放电计划以 `storage-plan --source/--output` 子命令提供，契约见
 > [storage.md](storage.md)，使用独立快照，不操作既有账簿或援助数据。
+> 现金核销对账以 `cash-reconcile --ledger/--source/--output` 子命令提供，契约见
+> [cash.md](cash.md)，只读使用 v2 账簿的冻结发票，不改动账簿。
 

@@ -1,0 +1,60 @@
+{
+  "currency": "TEST",
+  "invoice_refs": [
+    {
+      "id": "inv-feb",
+      "account": "A",
+      "period": "2025-02",
+      "invoice_sha256": "5f43c0ccb779048de3d1270900c0555345b2333280732cf2fff03c5a96159172",
+      "due_rank": 0
+    },
+    {
+      "id": "inv-mar",
+      "account": "A",
+      "period": "2025-03",
+      "invoice_sha256": "5b6c9fbebf79e46fb2a5aa7e54f41e80a5a9df90d3a3defd83552abe5ffbd588",
+      "due_rank": 1
+    },
+    {
+      "id": "inv-jan",
+      "account": "A",
+      "period": "2025-01",
+      "invoice_sha256": "34d1e8be2a08b614254a5caa046ad2531167f31ec37b5f1a00cb865effb05616",
+      "due_rank": 2
+    }
+  ],
+  "events": [
+    {
+      "id": "rcpt-1",
+      "kind": "receipt",
+      "amount": 700,
+      "eligible": [
+        "inv-feb",
+        "inv-mar"
+      ]
+    },
+    {
+      "id": "settle-1",
+      "kind": "settle"
+    },
+    {
+      "id": "rcpt-2",
+      "kind": "receipt",
+      "amount": 500,
+      "eligible": [
+        "inv-mar",
+        "inv-jan"
+      ]
+    },
+    {
+      "id": "ret-1",
+      "kind": "return",
+      "receipt_id": "rcpt-1",
+      "amount": 100
+    },
+    {
+      "id": "settle-2",
+      "kind": "settle"
+    }
+  ]
+}

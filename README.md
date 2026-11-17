@@ -70,6 +70,24 @@ tariff-rating aid-plan --source fixtures/aid.json --output run/aid-report.json
 tariff-rating storage-plan --source fixtures/storage.json --output run/storage-report.json
 ```
 
+## 现金核销对账 (cash-reconcile)
+
+新增 `cash-reconcile --ledger LEDGER --source INPUT --output REPORT`：把银行来款、
+核销批次和退票流水处理成可追溯的现金核销报告。`--ledger` 是已有 v2 账簿的只读
+快照（`ledger.py` 新增只读冻结发票取数接口：仅凭 `closed` 中的 invoice 原文，
+移去 `invoice_sha256` 后按 canonical/SHA 规则核验并检测篡改，真实应收即已含调整
+的 `invoice.total`，源期 held/pending 也可收款，不触发读数链重算）；`--source`
+是本次完整银行事件快照，每次从零重放，不创建新持久账簿。`cash.py` 负责银行资金
+生命周期（来款增现金、settle 切片入账、退票先冲现金再按 settle 逆序/发票 id 降序
+逐片撤销）与受限核销（总额最大 → 逐发票字典序 → 分配矩阵字典序的精确三级目标，
+最大流加逐边残量循环流求解），两职责共享同一切片谱系。契约与设计说明见
+[现金核销契约](docs/cash.md)。
+
+```sh
+tariff-rating cash-reconcile --ledger fixtures/cash_ledger.json \
+    --source fixtures/cash.json --output run/cash-report.json
+```
+
 ## 当前业务与样例
 # Progressive usage rating v1
 
